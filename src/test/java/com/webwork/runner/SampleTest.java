@@ -13,25 +13,25 @@ import java.nio.file.Paths;
 
     @BeforeClass
     public void setup() {
-      playwright = Playwright.create();
-      browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-      page = browser.newPage();
+//      playwright = Playwright.create();
+//      browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+//      page = browser.newPage();
     }
 
     @Test
     public void testGoogleSearch() {
-      page.navigate("https://www.google.com");
-      page.fill("input[name='q']", "Playwright with Java");
-      page.press("input[name='q']", "Enter");
-
-      Allure.addAttachment("Google Page Screenshot", "image/png",
-          Paths.get("screenshot.png").toAbsolutePath().toString());
+      try (Playwright playwright = Playwright.create()) {
+        Browser browser = playwright.webkit().launch();
+        Page page = browser.newPage();
+        page.navigate("https://playwright.dev/");
+        page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("example.png")));
+      }
     }
 
     @AfterClass
     public void teardown() {
-      browser.close();
-      playwright.close();
+//      browser.close();
+//      playwright.close();
     }
 
 
